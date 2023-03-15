@@ -29,9 +29,8 @@ Below is an example ERD. Try to come up with a similar end result. Good luck!
 
 ## 3. Import Pagila DB with data
 
-- Import the Pagila DB to your pgAdmin, you can download this DB from the following link: 
-https://github.com/devrimgunduz/pagila/blob/master/pagila-data.sql
-You just need to download the `pagila-data.sql` file.
+- Create the Pagila DB in your pgAdmin.
+- Import the Pagila DB to your pgAdmin. First create the tables by running following SQL query https://github.com/devrimgunduz/pagila/blob/master/pagila-schema.sql and then import the data with this one https://github.com/devrimgunduz/pagila/blob/master/pagila-insert-data.sql
 - Generate ERD for this database from pgAdmin.
 - Explore this database.
 
