@@ -1,0 +1,95 @@
+import psycopg2
+
+def connect():
+    conn = None
+    try:
+        conn = psycopg2.connect(
+            host = '127.0.0.1',
+            database = 'pycoders',
+            user = 'postgres',
+            password = 'Osman',
+            port = '5432') 
+        
+    except (Exception, psycopg2.DatabaseError) as error:  
+        conn = psycopg2.connect(
+            host = '127.0.0.1',
+            database = 'postgres',
+            user = 'postgres',
+            password = 'Osman',
+            port = '5432')  
+        
+        conn.autocommit = True
+        curr = conn.cursor()
+        curr.execute('CREATE DATABASE pycoders')
+        curr.close() 
+        conn = psycopg2.connect(
+            host = '127.0.0.1',
+            database = 'pycoders',
+            user = 'postgres',
+            password = 'Osman',
+            port = '5432')   
+        conn.autocommit = True
+        curr = conn.cursor()       
+         
+   
+    create_table1 = """CREATE TABLE IF NOT EXISTS students(
+                    student_id SERIAL PRIMARY KEY,
+                    name TEXT NOT NULL
+                                    )
+                                        """
+    create_table2 = """CREATE TABLE IF NOT EXISTS teachers(
+                    teacher_id SERIAL PRIMARY KEY,
+                    name TEXT NOT NULL
+                                        )
+                                        """
+
+    conn.autocommit = True
+    curr = conn.cursor()
+    curr.execute(create_table1)
+    curr.execute(create_table2)
+
+    students_value = [(1, 'Petra Josh'),
+            (2, 'Jan February'),
+            (3, 'James Lock'),
+            ]
+
+    teachers_value = [(1, 'Anne Marine'),
+            (2, 'Eva Huis'),
+            (3, 'Romy Black'),
+            ]
+
+    student_record = ', '.join(['%s'] * len(students_value))
+    teacher_record = ', '.join(['%s'] * len(teachers_value)) 
+
+    try:
+        student_insert = (f"INSERT INTO students (student_id, name) VALUES {student_record}")
+        curr.execute(student_insert, students_value)
+    except:
+        pass
+ 
+    try:
+        teacher_insert = (f'INSERT INTO teachers (teacher_id, name) VALUES {teacher_record}')
+        curr.execute(teacher_insert, teachers_value)
+    except:
+        pass
+ 
+
+    query_select1 = "SELECT * FROM students"
+    curr.execute(query_select1)
+    students = curr.fetchall()
+    for i in students:
+        print(i)
+
+    query_select2 = "SELECT * FROM teachers"
+    curr.execute(query_select2)
+    teachers = curr.fetchall()
+    for j in teachers:
+        print(j)    
+
+ 
+    if conn is not None:
+        conn.close()
+        
+if __name__ == '__main__':
+    connect()
+  

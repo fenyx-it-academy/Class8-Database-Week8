@@ -1,0 +1,34 @@
+import psycopg2
+
+database_name = 'pagile'
+user_name = 'postgres'
+password = 'Paswoord'
+host_ip = '127.0.0.1'
+host_port = '5432'
+
+conn = psycopg2.connect(database = database_name, user = user_name, password = password,
+                            host = host_ip, port = host_port)
+
+conn.autocommit = True
+cursor = conn.cursor()
+
+query_select1 = "SELECT * FROM actor"
+cursor.execute(query_select1)
+actors = cursor.fetchall()
+
+for actor in actors:
+    print(actor)
+
+query_select2 = "SELECT * FROM category"
+cursor.execute(query_select2)
+categories = cursor.fetchone()
+
+for category in categories:
+    print(category)
+
+query_select3 = "SELECT * FROM address"
+cursor.execute(query_select3)
+adress = cursor.fetchmany(50)
+
+for adr in adress:
+    print(adr)
